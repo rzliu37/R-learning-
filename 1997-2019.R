@@ -38,3 +38,17 @@ p2<-ggplot(data=minority, aes(x=year, y=staff, fill=edu_level1)) +
   geom_bar(stat="identity")+scale_fill_grey() + 
   labs(x ="年份", y = "教职工（万人）")+labs(fill="教育程度")
 dev.off()
+
+showtext_auto()
+pdf("percent.pdf", width=12, height=12)
+dev.new()
+grid.arrange(p3,p4, nrow = 2)
+p3 <- ggplot(minority, aes(x=year, y=faculty_per, group=edu_level1)) +
+ geom_line(aes(color=edu_level1)) +
+  geom_point(aes(color=edu_level1))+
+  labs(title="1997-2019专职教师与教职工百分比",
+       x ="年份", y = "专职教师百分比")+scale_color_discrete(name = "教育程度")
+p4 <- ggplot(minority[which(minority$staff_per>0),], aes(x=year, y=staff_per, group=edu_level1)) +
+  geom_line(aes(color=edu_level1)) +
+  geom_point(aes(color=edu_level1))+ 
+  labs(x="年份", y = "教职工百分比")+ scale_color_discrete(name = "教育程度")
